@@ -175,27 +175,29 @@ void printList(listNode* h) {
 
 int insertLast(listNode* h, int key) {
 
-	if (h == NULL) return -1;
+	if (h == NULL) return -1; // 헤드 포인터가 NULL인 경우 리스트가 비어있으므로 실패를 나타내는 -1을 반환
 
-	listNode* node = (listNode*)malloc(sizeof(listNode));
-	node->key = key;
-	node->rlink = NULL;
-	node->llink = NULL;
+	listNode* node = (listNode*)malloc(sizeof(listNode)); // 새로운 노드를 동적으로 할당
+	node->key = key; // 새로운 노드의 key를 주어진 key로 설정
+	node->rlink = NULL; // 새로운 노드의 오른쪽 링크를 NULL로 초기화
+	node->llink = NULL; // 새로운 노드의 왼쪽 링크를 NULL로 초기화
 
 	if (h->rlink == h)
 	{
-		h->rlink = node;
-		h->llink = node;
-		node->rlink = h;
-		node->llink = h;
+		// 리스트가 비어있는 경우
+		h->rlink = node; // 헤드의 오른쪽 링크를 새로운 노드로 설정
+		h->llink = node; // 헤드의 왼쪽 링크를 새로운 노드로 설정
+		node->rlink = h; // 새로운 노드의 오른쪽 링크를 헤드로 설정
+		node->llink = h; // 새로운 노드의 왼쪽 링크를 헤드로 설정
 	} else {
-		h->llink->rlink = node;
-		node->llink = h->llink;
-		h->llink = node;
-		node->rlink = h;
+		// 리스트가 비어있지 않은 경우
+		h->llink->rlink = node; // 헤드의 왼쪽 노드의 오른쪽 링크를 새로운 노드로 설정
+		node->llink = h->llink; // 새로운 노드의 왼쪽 링크를 헤드의 왼쪽 노드로 설정
+		h->llink = node; // 헤드의 왼쪽 링크를 새로운 노드로 설정
+		node->rlink = h; // 새로운 노드의 오른쪽 링크를 헤드로 설정
 	}
 
-	return 1;
+	return 1; // 성공을 나타내는 1을 반환
 }
 
 
@@ -203,121 +205,114 @@ int deleteLast(listNode* h) {
 
 	if (h->llink == h || h == NULL)
 	{
-		printf("nothing to delete.\n");
-		return 1;
+		printf("nothing to delete.\n"); // 삭제할 노드가 없는 경우 메시지를 출력
+		return 1; // 성공을 나타내는 1을 반환
 	}
 
-	listNode* nodetoremove = h->llink;
+	listNode* nodetoremove = h->llink; // 삭제할 노드를 가리키는 포인터를 설정
 
-	nodetoremove->llink->rlink = h;
-	h->llink = nodetoremove->llink;
+	nodetoremove->llink->rlink = h; // 삭제할 노드의 이전 노드의 오른쪽 링크를 헤드로 설정
+	h->llink = nodetoremove->llink; // 헤드의 왼쪽 링크를 삭제할 노드의 이전 노드로 설정
 
-	free(nodetoremove);
+	free(nodetoremove); // 삭제할 노드를 해제
 
 	return 1;
 }
 
-
 int insertFirst(listNode* h, int key) {
 
-	listNode* node = (listNode*)malloc(sizeof(listNode));
-	node->key = key;
-	node->rlink = NULL;
-	node->llink = NULL;
+	listNode* node = (listNode*)malloc(sizeof(listNode)); // 새로운 노드를 동적으로 할당
+	node->key = key; // 새로운 노드의 key를 주어진 key로 설정
+	node->rlink = NULL; // 새로운 노드의 오른쪽 링크를 NULL로 초기화
+	node->llink = NULL; // 새로운 노드의 왼쪽 링크를 NULL로 초기화
 
 
-	node->rlink = h->rlink;
-	h->rlink->llink = node;
-	node->llink = h;
-	h->rlink = node;
+	node->rlink = h->rlink; // 새로운 노드의 오른쪽 링크를 헤드의 오른쪽 노드로 설정
+	h->rlink->llink = node; // 헤드의 오른쪽 노드의 왼쪽 링크를 새로운 노드로 설정
+	node->llink = h; // 새로운 노드의 왼쪽 링크를 헤드로 설정
+	h->rlink = node; // 헤드의 오른쪽 링크를 새로운 노드로 설정
 
-
-	return 1;
+	return 1; // 성공을 나타내는 1을 반환
 }
 
 int deleteFirst(listNode* h) {
 
 	if (h == NULL || h->rlink == h)
 	{
-		printf("nothing to delete.\n");
-		return 0;
+		printf("nothing to delete.\n"); // 삭제할 노드가 없는 경우 메시지를 출력
+		return 0; // 실패를 나타내는 0을 반환
 	}
 
-	listNode* nodetoremove = h->rlink;
+	listNode* nodetoremove = h->rlink; // 삭제할 노드를 가리키는 포인터를 설정
 
-	nodetoremove->rlink->llink = h;
-	h->rlink = nodetoremove->rlink;
+	nodetoremove->rlink->llink = h; // 삭제할 노드의 다음 노드의 왼쪽 링크를 헤드로 설정
+	h->rlink = nodetoremove->rlink; // 헤드의 오른쪽 링크를 삭제할 노드의 다음 노드로 설정
 
-	free(nodetoremove);
+	free(nodetoremove); // 삭제할 노드를 해제
 
-	return 1;
-
+	return 1; // 성공을 나타내는 1을 반환
 }
 
 
 int invertList(listNode* h) {
 
-
 	if(h->rlink == h || h == NULL) {
-		printf("nothing to invert...\n");
-		return 0;
+		printf("nothing to invert...\n"); // 뒤집을 노드가 없는 경우 메시지 출력
+		return 0; // 실패를 나타내는 0을 반환
 	}
-	listNode *n = h->rlink;
-	listNode *trail = h;
-	listNode *middle = h;
+	listNode *n = h->rlink; // 현재 노드를 가리키는 포인터
+	listNode *trail = h; // 이전 노드를 가리키는 포인터
+	listNode *middle = h; // 중간 노드를 가리키는 포인터
 
-	h->llink = h->rlink;
+	h->llink = h->rlink; // 헤드의 왼쪽 링크를 첫 번째 노드로 설정
 
 	while(n != NULL && n != h){
-		trail = middle;
-		middle = n;
-		n = n->rlink;
-		middle->rlink = trail;
-		middle->llink = trail->llink;
-
+		trail = middle; // 이전 노드를 갱신
+		middle = n; // 중간 노드를 갱신
+		n = n->rlink; // 다음 노드로 이동
+		middle->rlink = trail; // 중간 노드의 오른쪽 링크를 이전 노드로 설정
+		middle->llink = trail->llink; // 중간 노드의 왼쪽 링크를 이전 노드의 왼쪽 링크로 설정
 	}
 
-	h->rlink = middle;
+	h->rlink = middle; // 헤드의 오른쪽 링크를 마지막 노드로 설정
 
-	return 0;
+	return 0; // 성공을 나타내는 0을 반환
 }
-
-
 
 int insertNode(listNode* h, int key) {
 
-	if(h == NULL) return -1;
+	if(h == NULL) return -1; // 헤드 포인터가 NULL인 경우 실패를 나타내는 -1을 반환
 
-	listNode* node = (listNode*)malloc(sizeof(listNode));
-	node->key = key;
-	node->llink = node->rlink = NULL;
+	listNode* node = (listNode*)malloc(sizeof(listNode)); // 새로운 노드를 동적으로 할당
+	node->key = key; // 새로운 노드의 key를 주어진 key로 설정
+	node->llink = node->rlink = NULL; // 새로운 노드의 링크를 NULL로 초기화
 
 	if (h->rlink == h)
 	{
-		insertFirst(h, key);
-		return 1;
+		insertFirst(h, key); // 리스트가 비어있는 경우 첫 번째에 삽입
+		return 1; // 성공을 나타내는 1을 반환
 	}
 
-	listNode* n = h->rlink;
+	listNode* n = h->rlink; // 현재 노드를 가리키는 포인터
 
 	while(n != NULL && n != h) {
 		if(n->key >= key) {
 			if(n == h->rlink) {
-				insertFirst(h, key);
+				insertFirst(h, key); // 첫 번째 노드보다 작은 경우 첫 번째에 삽입
 			} else {
-				node->rlink = n;
-				node->llink = n->llink;
-				n->llink->rlink = node;
-				n->llink = node;
+				node->rlink = n; // 새로운 노드의 오른쪽 링크를 현재 노드로 설정
+				node->llink = n->llink; // 새로운 노드의 왼쪽 링크를 현재 노드의 왼쪽 링크로 설정
+				n->llink->rlink = node; // 현재 노드의 왼쪽 링크를 새로운 노드로 설정
+				n->llink = node; // 현재 노드의 왼쪽 링크를 새로운 노드로 설정
 			}
-			return 0;
+			return 0; // 성공을 나타내는 0을 반환
 		}
 
-		n = n->rlink;
+		n = n->rlink; // 다음 노드로 이동
 	}
 
-	insertLast(h, key);
-	return 0;
+	insertLast(h, key); // 모든 노드보다 큰 경우 마지막에 삽입
+	return 0; // 성공을 나타내는 0을 반환
 }
 
 
@@ -325,29 +320,29 @@ int deleteNode(listNode* h, int key) {
 
 	if (h->rlink == h || h == NULL)
 	{
-		printf("nothing to delete.\n");
-		return 0;
+		printf("nothing to delete.\n"); // 삭제할 노드가 없는 경우 메시지 출력
+		return 0; // 실패를 나타내는 0을 반환
 	}
 
-	listNode* n = h->rlink;
+	listNode* n = h->rlink; // 현재 노드를 가리키는 포인터
 
 	while(n != NULL && n != h) {
-		if(n->key == key) {
+		if(n->key == key) { // 삭제할 노드를 찾은 경우
 			if(n == h->rlink) {
-				deleteFirst(h);
+				deleteFirst(h); // 첫 번째 노드인 경우 첫 번째 노드 삭제 함수 호출
 			} else if (n->rlink == h){
-				deleteLast(h);
+				deleteLast(h); // 마지막 노드인 경우 마지막 노드 삭제 함수 호출
 			} else {
-				n->llink->rlink = n->rlink;
-				n->rlink->llink = n->llink;
-				free(n);
+				n->llink->rlink = n->rlink; // 삭제할 노드의 이전 노드의 오른쪽 링크를 다음 노드로 설정
+				n->rlink->llink = n->llink; // 삭제할 노드의 다음 노드의 왼쪽 링크를 이전 노드로 설정
+				free(n); // 삭제할 노드 해제
 			}
-			return 0;
+			return 0; // 성공을 나타내는 0을 반환
 		}
 
-		n = n->rlink;
+		n = n->rlink; // 다음 노드로 이동
 	}
 
-	printf("cannot find the node for key = %d\n", key);
-	return 0;
+	printf("cannot find the node for key = %d\n", key); // 해당 키의 노드를 찾지 못한 경우 메시지 출력
+	return 0; // 실패를 나타내는 0을 반환
 }
