@@ -264,7 +264,8 @@ int invertList(listNode* h) {
 		middle = n;
 		n = n->rlink;
 		middle->rlink = trail;
-		middle->llink = n;
+		middle->llink = trail->llink;
+
 	}
 
 	h->rlink = middle;
