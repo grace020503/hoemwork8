@@ -1,6 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+
+void PrintStudent(){
+	char* name = "Kim sieun", id = "2021053007";
+
+	printf("----------[%S][%s]----------", name, id);
+}
+
 typedef struct Node {
 	int key;
 	struct Node* llink;
@@ -27,6 +34,8 @@ int main()
 	char command;
 	int key;
 	listNode* headnode=NULL;
+
+	PrintStudent();
 
 	do{
 		printf("----------------------------------------------------------------\n");
